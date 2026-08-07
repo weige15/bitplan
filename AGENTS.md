@@ -50,3 +50,16 @@ thresholds on final evaluation sets.
 Do not commit model checkpoints, datasets, caches, credentials, raw generated
 corpora, or large profiling traces. Commit manifests, schemas, configurations,
 small derived tables, and scripts needed to reproduce them.
+
+## Maintaining this file
+
+Keep this file for knowledge useful to almost every future agent session in this project.
+Do not repeat what the codebase already shows; point to the authoritative file or command instead.
+Prefer rewriting or pruning existing entries over appending new ones.
+When updating this file, preserve this bar for all agents and keep entries concise.
+
+## Research operating scaffold
+
+- Research records and protocols live under `research/`; their schemas and validation entry point are documented in `doc/repo-intake.md` and implemented by `scripts/validate_research_data.py`.
+- Run `python3 scripts/validate_research_data.py` and `python3 -m unittest discover -s tests -v` before submitting scaffold or research-record changes.
+- Keep implementation-free research infrastructure separate from future algorithms: `src/bitplan/` is currently only an importable package, while raw/generated artifacts remain excluded by `.gitignore` and the artifact rules above.

@@ -1,0 +1,13 @@
+[
+  {
+    "id": "paper-example-001",
+    "title": "Example calibration paper record (replace before relying on it)",
+    "authors": ["Research team"],
+    "year": 2025,
+    "venue": "unverified",
+    "identifiers": {"arxiv": "", "doi": "", "openreview": ""},
+    "url": "https://example.invalid/paper-example-001",
+    "status": "candidate",
+    "notes": "Scaffold-only record; verify against a primary source before use."
+  }
+]

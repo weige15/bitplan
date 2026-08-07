@@ -1,0 +1,1 @@
+{"id":"result-example-001","status":"planned","claim_ids":["C001"],"config":"configs/example.json","raw_output":"results/raw/result-example-001/","repository_commit":"TBD","model":{"name":"TBD","revision":"TBD"},"dataset":{"name":"TBD","revision":"TBD"},"environment_lock":"TBD","hardware":"TBD","quantization":"TBD","seed":0,"command":"TBD","metric_implementation":"TBD"}

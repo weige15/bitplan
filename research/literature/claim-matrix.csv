@@ -1,0 +1,2 @@
+claim_id,paper_id,closest_prior_work,exact_overlap,proposed_differentiator,needed_experiment,falsifier,status
+C001,paper-example-001,Unverified; replace with closest primary work,Unverified; complete after survey,Calibrated replay policy and paired systems measurements,Compare fixed versus selective precision on held-out quality and latency/cost,No quality preservation or no systems benefit under matched conditions,open
