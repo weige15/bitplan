@@ -100,6 +100,8 @@ class TransformersCausalModel:
         hidden = torch.tensor([hidden_states], dtype=next(self.model.parameters()).dtype, device=self.model.device)
         position_ids = torch.arange(hidden.shape[1], device=hidden.device).unsqueeze(0)
         attention_mask = self._causal_mask(hidden, position_ids)
+        rotary = getattr(self._base, "rotary_emb", None)
+        position_embeddings = rotary(hidden, position_ids) if rotary is not None else None
         for layer in self._layers[boundary:]:
             parameters = inspect.signature(layer.forward).parameters
             kwargs: dict[str, Any] = {}
@@ -109,6 +111,8 @@ class TransformersCausalModel:
                 kwargs["position_ids"] = position_ids
             if "cache_position" in parameters:
                 kwargs["cache_position"] = torch.arange(hidden.shape[1], device=hidden.device)
+            if "position_embeddings" in parameters:
+                kwargs["position_embeddings"] = position_embeddings
             if "past_key_value" in parameters:
                 kwargs["past_key_value"] = None
             if "use_cache" in parameters:
@@ -118,14 +122,18 @@ class TransformersCausalModel:
             result = layer(hidden, **kwargs)
             hidden = result[0] if isinstance(result, tuple) else result
         norm = getattr(self._base, "norm", None) or getattr(self._base, "ln_f", None)
-        if norm is not None:
+        # Qwen2's final hidden-state boundary is already post-norm in
+        # output.hidden_states; earlier boundaries need the final norm here.
+        if norm is not None and boundary < self.num_layers:
             hidden = norm(hidden)
         logits = self.model.lm_head(hidden[:, -1, :])
         return logits[0].float().detach().cpu().tolist()
 
 
-def load_transformers_conditions(config: dict[str, Any], model_key: str) -> tuple[Any, dict[str, TransformersCausalModel]]:
-    """Load the pinned model once per condition; raises a useful dependency error."""
+def load_transformers_conditions(
+    config: dict[str, Any], model_key: str, devices: list[str] | None = None
+) -> tuple[Any, dict[str, TransformersCausalModel]]:
+    """Load one pinned model per condition on an explicit device assignment."""
     try:
         import torch
         from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -138,13 +146,23 @@ def load_transformers_conditions(config: dict[str, Any], model_key: str) -> tupl
     tokenizer = AutoTokenizer.from_pretrained(
         spec["name"], revision=spec["tokenizer_revision"], use_fast=True
     )
+    condition_count = len(config["quantization"]["conditions"])
+    if devices is None:
+        devices = ["cuda:0" if torch.cuda.is_available() else "cpu"] * condition_count
+    if len(devices) != condition_count:
+        raise ValueError(f"exactly {condition_count} devices are required, got {len(devices)}")
+    if any(device.startswith("cuda") for device in devices) and not torch.cuda.is_available():
+        raise RuntimeError("CUDA device assignment requested but torch.cuda.is_available() is false")
+
     loaded: dict[str, TransformersCausalModel] = {}
-    for condition in config["quantization"]["conditions"]:
+    for condition, device in zip(config["quantization"]["conditions"], devices):
         name = condition["name"]
         model = AutoModelForCausalLM.from_pretrained(
             spec["name"], revision=spec["revision"], torch_dtype=torch.bfloat16
         )
         if name != "bf16":
             _quantize_torch_model(model, int(condition["bits"]))
+        model.to(device)
+        model.eval()
         loaded[name] = TransformersCausalModel(model, num_layers=spec["transformer_layers"])
     return tokenizer, loaded

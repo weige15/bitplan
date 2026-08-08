@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 from typing import Any
@@ -22,13 +23,19 @@ def _write_json(path: Path, value: Any) -> None:
         handle.write("\n")
 
 
-def run(config_path: str | Path, model_key: str, split: str, output_dir: str | Path) -> dict[str, Any]:
+def run(
+    config_path: str | Path,
+    model_key: str,
+    split: str,
+    output_dir: str | Path,
+    devices: list[str] | None = None,
+) -> dict[str, Any]:
     config = load_config(config_path)
     evaluation = load_json(ROOT / config["data"]["manifest_path"])
     prompts = evaluation["splits"].get(split)
     if prompts is None:
         raise ValueError(f"unknown split {split}")
-    tokenizer, loaded = load_transformers_conditions(config, model_key)
+    tokenizer, loaded = load_transformers_conditions(config, model_key, devices=devices)
     for prompt in prompts:
         prompt["token_ids"] = tokenizer(str(prompt["text"]), add_special_tokens=True)["input_ids"]
     reference = loaded["bf16"]
@@ -52,10 +59,26 @@ def run(config_path: str | Path, model_key: str, split: str, output_dir: str | P
         split=split,
         run_id=run_id,
         raw_output_location=f"results/raw/{run_id}/",
-        command=[sys.executable, "-m", "bitplan.run", "--config", str(config_path), "--model", model_key, "--split", split, "--output", str(output_dir)],
+        command=[
+            sys.executable,
+            "-m",
+            "bitplan.run",
+            "--config",
+            str(config_path),
+            "--model",
+            model_key,
+            "--split",
+            split,
+            "--output",
+            str(output_dir),
+            "--devices",
+            ",".join(devices or []),
+        ],
         execution={
             "mode": "transformers",
             "network_access": True,
+            "devices": devices or ["auto"],
+            "visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
             "note": "Native fake-dequantized weights; not a packed-kernel systems measurement.",
         },
     )
@@ -78,8 +101,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--model", choices=("development", "primary"), default="development")
     parser.add_argument("--split", choices=("calibration", "validation", "final"), default="validation")
     parser.add_argument("--output", required=True)
+    parser.add_argument("--devices", default=None, help="comma-separated devices, one per condition")
     args = parser.parse_args(argv)
-    summary = run(args.config, args.model, args.split, args.output)
+    devices = [item.strip() for item in args.devices.split(",") if item.strip()] if args.devices else None
+    summary = run(args.config, args.model, args.split, args.output, devices=devices)
     print(json.dumps(summary, indent=2, sort_keys=True))
     return 0
 

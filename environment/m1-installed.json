@@ -1,0 +1,96 @@
+{
+  "schema_version": "bitplan.m1.installed-environment.v1",
+  "python": "3.12.3",
+  "venv": ".venv",
+  "pre_install_check": {
+    "python_minus_m_pip_show": "python executable was unavailable in the worktree shell",
+    "python3_minus_m_pip_show": "torch and transformers were not installed"
+  },
+  "install_commands": [
+    "python3 -m venv .venv",
+    "PIP_NO_CACHE_DIR=1 .venv/bin/python -m pip install --upgrade pip",
+    "PIP_NO_CACHE_DIR=1 .venv/bin/python -m pip install --index-url https://download.pytorch.org/whl/cu124 torch==2.5.1",
+    "PIP_NO_CACHE_DIR=1 .venv/bin/python -m pip install transformers==4.48.3 safetensors==0.4.5 huggingface_hub==0.27.0 tokenizers==0.21.0"
+  ],
+  "packages": {
+    "pip": "26.2.1",
+    "torch": "2.5.1+cu124",
+    "torch_cuda_runtime": "12.4",
+    "transformers": "4.48.3",
+    "safetensors": "0.4.5",
+    "huggingface_hub": "0.27.0",
+    "tokenizers": "0.21.0",
+    "numpy": "2.5.1",
+    "triton": "3.1.0",
+    "nvidia-cudnn-cu12": "9.1.0.70",
+    "nvidia-cublas-cu12": "12.4.5.8",
+    "nvidia-cuda-runtime-cu12": "12.4.127",
+    "nvidia-nccl-cu12": "2.21.5"
+  },
+  "pip_freeze": [
+    "certifi==2026.7.22",
+    "charset-normalizer==3.4.9",
+    "filelock==3.29.0",
+    "fsspec==2026.4.0",
+    "huggingface-hub==0.27.0",
+    "idna==3.18",
+    "Jinja2==3.1.6",
+    "MarkupSafe==3.0.3",
+    "mpmath==1.3.0",
+    "networkx==3.6.1",
+    "numpy==2.5.1",
+    "nvidia-cublas-cu12==12.4.5.8",
+    "nvidia-cuda-cupti-cu12==12.4.127",
+    "nvidia-cuda-nvrtc-cu12==12.4.127",
+    "nvidia-cuda-runtime-cu12==12.4.127",
+    "nvidia-cudnn-cu12==9.1.0.70",
+    "nvidia-cufft-cu12==11.2.1.3",
+    "nvidia-curand-cu12==10.3.5.147",
+    "nvidia-cusolver-cu12==11.6.1.9",
+    "nvidia-cusparse-cu12==12.3.1.170",
+    "nvidia-nccl-cu12==2.21.5",
+    "nvidia-nvjitlink-cu12==12.4.127",
+    "nvidia-nvtx-cu12==12.4.127",
+    "packaging==26.3",
+    "pip==26.2.1",
+    "PyYAML==6.0.3",
+    "regex==2026.7.19",
+    "requests==2.34.2",
+    "safetensors==0.4.5",
+    "setuptools==78.1.0",
+    "sympy==1.13.1",
+    "tokenizers==0.21.0",
+    "torch==2.5.1+cu124",
+    "tqdm==4.70.0",
+    "transformers==4.48.3",
+    "triton==3.1.0",
+    "typing_extensions==4.15.0",
+    "urllib3==2.7.0"
+  ],
+  "driver_runtime": {
+    "driver_version": "580.159.03",
+    "nvidia_smi_cuda_version": "13.0",
+    "cuda_home": "/usr/local/cuda-12.4",
+    "torch_cuda_version": "12.4"
+  },
+  "gpu_inventory_before_install": [
+    {"index": 0, "name": "NVIDIA GeForce RTX 3090", "uuid": "GPU-0ba621dc-6dc5-e2e6-fad5-8e089bd4a91a", "memory_total_mib": 24576, "memory_used_mib": 10712, "utilization_percent": 100, "temperature_c": 71},
+    {"index": 1, "name": "NVIDIA GeForce RTX 3090", "uuid": "GPU-30001dcd-9aa9-924d-e331-c9562c8c9659", "memory_total_mib": 24576, "memory_used_mib": 10642, "utilization_percent": 99, "temperature_c": 70},
+    {"index": 2, "name": "NVIDIA GeForce RTX 3090", "uuid": "GPU-74d97f46-6284-1055-698a-e2db4e9c744b", "memory_total_mib": 24576, "memory_used_mib": 10644, "utilization_percent": 100, "temperature_c": 72},
+    {"index": 3, "name": "NVIDIA GeForce RTX 3090", "uuid": "GPU-5bc73c3c-34f7-5f72-b30a-f5b9df90c269", "memory_total_mib": 24576, "memory_used_mib": 10622, "utilization_percent": 100, "temperature_c": 68},
+    {"index": 4, "name": "NVIDIA GeForce RTX 3090", "uuid": "GPU-daa3c5f3-ae58-28e9-e065-7ec92537ccb1", "memory_total_mib": 24576, "memory_used_mib": 1, "utilization_percent": 0, "temperature_c": 30},
+    {"index": 5, "name": "NVIDIA GeForce RTX 3090", "uuid": "GPU-7f8c92f6-cc4a-3254-e0d4-d0eb31d7fb79", "memory_total_mib": 24576, "memory_used_mib": 1, "utilization_percent": 0, "temperature_c": 30},
+    {"index": 6, "name": "NVIDIA GeForce RTX 3090", "uuid": "GPU-7fc141af-7228-4a0f-9ac7-78bb3615aae5", "memory_total_mib": 24576, "memory_used_mib": 1, "utilization_percent": 0, "temperature_c": 28},
+    {"index": 7, "name": "NVIDIA GeForce RTX 3090", "uuid": "GPU-01fe0496-2d96-9bad-bca2-935ad704d1c7", "memory_total_mib": 24576, "memory_used_mib": 1, "utilization_percent": 0, "temperature_c": 27}
+  ],
+  "device_assignment": {
+    "development": "CUDA_VISIBLE_DEVICES=4; all four tiny condition copies on logical cuda:0",
+    "primary": "CUDA_VISIBLE_DEVICES=4,5,6,7; bf16,w8,w4,w3 on logical cuda:0,cuda:1,cuda:2,cuda:3 respectively",
+    "uncontrolled_multi_gpu_job": false
+  },
+  "pinned_models": {
+    "development": {"name": "sshleifer/tiny-gpt2", "revision": "5f91d94bd9cd7190a9f3216ff93cd1dd95f2c7be", "tokenizer_revision": "5f91d94bd9cd7190a9f3216ff93cd1dd95f2c7be"},
+    "primary": {"name": "Qwen/Qwen2.5-7B-Instruct", "revision": "a09a35458c702b33eeacc393d103063234e8bc28", "tokenizer_revision": "a09a35458c702b33eeacc393d103063234e8bc28"}
+  },
+  "note": "The venv, model cache, and all raw outputs are ignored. This manifest records the environment used for the M1 follow-up and makes no product, safety, paper, or systems-performance claim."
+}
