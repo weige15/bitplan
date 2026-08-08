@@ -4,7 +4,9 @@
     "-m",
     "bitplan.smoke",
     "--config",
-    "configs/m1.json"
+    "configs/m1.json",
+    "--output",
+    "results/raw/m1-smoke-fixture-v1"
   ],
   "configuration": "configs/m1.json",
   "data": {
@@ -92,7 +94,7 @@
   },
   "raw_output_location": "results/raw/m1-smoke-fixture-v1/",
   "repository": {
-    "commit": "d8eea79a9eaf088f18aa59f44e6702605125fab8",
+    "commit": "cb99162e3a365d7fb86bd75e354887846fb51dd2",
     "root": "."
   },
   "run_id": "m1-smoke-fixture-v1",
