@@ -4,7 +4,7 @@
   "runs": [
     {
       "run_id": "m1-smoke-fixture-v1",
-      "manifest": "results/raw/m1-smoke-fixture-v1/run-manifest.json",
+      "manifest": "manifests/m1-smoke-fixture-v1.json",
       "raw_output_location": "results/raw/m1-smoke-fixture-v1/",
       "summary": {
         "evidence": "smoke-only dependency-free fixture",

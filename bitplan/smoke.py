@@ -74,7 +74,7 @@ def run(config_path: str | Path, output_dir: str | Path) -> dict:
         split="smoke",
         run_id=RUN_ID,
         raw_output_location="results/raw/m1-smoke-fixture-v1/",
-        command=[sys.executable, "-m", "bitplan.smoke", "--config", str(config_path)],
+        command=[sys.executable, "-m", "bitplan.smoke", "--config", str(config_path), "--output", str(output_dir)],
         execution={
             "mode": "dependency-free-fixture",
             "fixture": "bitplan.models.ToyTransformer",

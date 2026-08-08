@@ -13,7 +13,8 @@ calibrated-safety claim, runtime-monitor claim, or systems benchmark.
   sets are separate. No threshold was tuned on final data.
 - **[Experimental result: smoke-only]** `run_id=m1-smoke-fixture-v1`, using
   `configs/m1.json`, generated raw artifacts at
-  `results/raw/m1-smoke-fixture-v1/`. The committed compact index is
+  `results/raw/m1-smoke-fixture-v1/`. The committed run manifest is
+  `manifests/m1-smoke-fixture-v1.json`; the compact index is
   `results/index.json`.
 - **[Environment fact]** The available environment has Python 3.12.3 but no
   installed `torch` or `transformers`, so neither pinned-model run was executed.
