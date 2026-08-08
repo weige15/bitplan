@@ -1,0 +1,17 @@
+{
+  "schema_version": "bitplan.m1.environment-lock.v1",
+  "python": "3.12.3",
+  "offline_smoke": {
+    "dependencies": {},
+    "command": "python3 -m bitplan.smoke --config configs/m1.json"
+  },
+  "optional_transformers_run": {
+    "torch": "2.5.1",
+    "transformers": "4.48.3",
+    "safetensors": "0.4.5",
+    "huggingface_hub": "0.27.0",
+    "tokenizers": "0.21.0",
+    "install_note": "Install these exact versions in an isolated environment before using bitplan.run with a network-backed Transformers model; the committed smoke path does not import them."
+  },
+  "hardware_note": "The run manifest records the actual platform, Python, torch, and CUDA snapshot at execution time."
+}

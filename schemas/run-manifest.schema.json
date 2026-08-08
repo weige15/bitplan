@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bitplan.local/schemas/run-manifest.v1.json",
+  "type": "object",
+  "required": ["schema_version", "run_id", "repository", "model", "data", "environment_lock", "hardware", "quantization", "decoding", "seed", "command", "configuration", "raw_output_location", "metrics"],
+  "properties": {
+    "schema_version": {"const": "bitplan.m1.run-manifest.v1"},
+    "run_id": {"type": "string", "minLength": 1},
+    "repository": {"type": "object", "required": ["commit"]},
+    "model": {"type": "object", "required": ["key", "name", "revision", "license", "tokenizer"]},
+    "data": {"type": "object", "required": ["manifest", "revision", "sha256", "split", "threshold_source_split"]},
+    "environment_lock": {"type": "object", "required": ["path", "sha256"]},
+    "hardware": {"type": "object"},
+    "quantization": {"type": "object", "required": ["reference", "conditions", "boundaries"]},
+    "decoding": {"type": "object", "required": ["strategy", "seed", "max_new_tokens", "top_k"]},
+    "seed": {"const": 0},
+    "command": {"type": "array", "items": {"type": "string"}},
+    "configuration": {"const": "configs/m1.json"},
+    "raw_output_location": {"type": "string", "pattern": "^results/raw/"},
+    "metrics": {"type": "object", "required": ["implementation_version"]}
+  }
+}
