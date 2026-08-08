@@ -1,0 +1,118 @@
+{
+  "command": [
+    "/nfs/home/s314511048/.treehouse/bitplan-c85aef/6/bitplan/.venv/bin/python",
+    "-m",
+    "bitplan.run",
+    "--config",
+    "configs/m1.json",
+    "--model",
+    "primary",
+    "--split",
+    "validation",
+    "--output",
+    "results/raw/primary-validation-gpu4-7-v1",
+    "--devices",
+    "cuda:0,cuda:1,cuda:2,cuda:3"
+  ],
+  "configuration": "configs/m1.json",
+  "data": {
+    "manifest": "data/m1/evaluation-manifest.json",
+    "revision": "bitplan-m1-eval-v1",
+    "sha256": "776aabfc43b8bd577bd894e731c59bbe407c6375345e8d4bd578edcdc072e6f6",
+    "split": "validation",
+    "threshold_source_split": "validation"
+  },
+  "decoding": {
+    "max_new_tokens": 8,
+    "seed": 0,
+    "strategy": "greedy",
+    "top_k": 8
+  },
+  "environment_lock": {
+    "path": "environment/m1-lock.json",
+    "sha256": "d0c8888ac890589cad7a65dfe7bf1c1d4bbf802a2c9fa49b8edd1dbfa27c7157"
+  },
+  "execution": {
+    "devices": [
+      "cuda:0",
+      "cuda:1",
+      "cuda:2",
+      "cuda:3"
+    ],
+    "mode": "transformers",
+    "network_access": true,
+    "note": "Native fake-dequantized weights; not a packed-kernel systems measurement.",
+    "visible_devices": "4,5,6,7"
+  },
+  "hardware": {
+    "cuda": true,
+    "cuda_device": "NVIDIA GeForce RTX 3090",
+    "machine": "x86_64",
+    "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.39",
+    "processor": "x86_64",
+    "python": "3.12.3",
+    "torch": "2.5.1+cu124"
+  },
+  "metrics": {
+    "implementation_version": "bitplan.m1.metrics.v1",
+    "tool_version": "0.1.0"
+  },
+  "model": {
+    "key": "primary",
+    "license": "Apache-2.0",
+    "name": "Qwen/Qwen2.5-7B-Instruct",
+    "rationale": "Open Apache-2.0 7B instruction model with stable Transformers support; fixed here to avoid broad model scaling.",
+    "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+    "tokenizer": {
+      "revision": "a09a35458c702b33eeacc393d103063234e8bc28"
+    }
+  },
+  "quantization": {
+    "boundaries": [
+      0,
+      7,
+      14,
+      21,
+      28
+    ],
+    "conditions": [
+      {
+        "backend": "torch_bfloat16_or_fixture_bfloat16_rounding",
+        "bits": 16,
+        "name": "bf16",
+        "support_scope": "Condition comparison only; no systems-speed claim.",
+        "supported": true
+      },
+      {
+        "backend": "native_symmetric_fake_dequantized_weights",
+        "bits": 8,
+        "name": "w8",
+        "support_scope": "Per-tensor symmetric fake quantization in the offline reference harness; weights remain dequantized for correctness instrumentation.",
+        "supported": true
+      },
+      {
+        "backend": "native_symmetric_fake_dequantized_weights",
+        "bits": 4,
+        "name": "w4",
+        "support_scope": "Per-tensor symmetric fake quantization in the offline reference harness; weights remain dequantized for correctness instrumentation.",
+        "supported": true
+      },
+      {
+        "backend": "native_symmetric_fake_dequantized_weights",
+        "bits": 3,
+        "name": "w3",
+        "support_scope": "Aggressive W3 fake quantization is technically supported by the dependency-free harness; no packed-kernel or hardware performance claim.",
+        "supported": true
+      }
+    ],
+    "reference": "higher_precision_reference"
+  },
+  "raw_output_location": "results/raw/primary-validation-gpu4-7-v1/",
+  "repository": {
+    "commit": "2deeaa208a89545c6219510597acbad4500074b3",
+    "root": "."
+  },
+  "run_id": "primary-validation-gpu4-7-v1",
+  "schema_version": "bitplan.m1.run-manifest.v1",
+  "seed": 0
+}

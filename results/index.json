@@ -1,31 +1,403 @@
 {
-  "schema_version": "bitplan.m1.result-index.v1",
   "purpose": "Small committed index; raw results remain ignored.",
   "runs": [
     {
-      "run_id": "m1-smoke-fixture-v1",
       "manifest": "manifests/m1-smoke-fixture-v1.json",
       "raw_output_location": "results/raw/m1-smoke-fixture-v1/",
+      "run_id": "m1-smoke-fixture-v1",
       "summary": {
-        "evidence": "smoke-only dependency-free fixture",
         "config": "configs/m1.json",
-        "steps_per_condition": 16,
+        "evidence": "smoke-only dependency-free fixture",
+        "note": "Not evidence about pinned-model quality, runtime speed, calibrated safety, or a paper result.",
         "replay_checked": 48,
         "replay_tolerance": 1e-12,
-        "unsafe_decision_rate": {
-          "bf16": 0.0,
-          "w8": 0.125,
-          "w4": 0.9375,
-          "w3": 1.0
-        },
+        "steps_per_condition": 16,
         "top1_disagreement_rate": {
           "bf16": 0.0,
-          "w8": 0.0,
+          "w3": 0.0625,
           "w4": 0.0,
-          "w3": 0.0625
+          "w8": 0.0
         },
-        "note": "Not evidence about pinned-model quality, runtime speed, calibrated safety, or a paper result."
+        "unsafe_decision_rate": {
+          "bf16": 0.0,
+          "w3": 1.0,
+          "w4": 0.9375,
+          "w8": 0.125
+        }
+      }
+    },
+    {
+      "manifest": "manifests/dev-calibration-gpu4-v1.json",
+      "raw_output_location": "results/raw/dev-calibration-gpu4-v1/",
+      "run_id": "dev-calibration-gpu4-v1",
+      "summary": {
+        "conditions": {
+          "bf16": {
+            "mean_logit_mae": 0.0,
+            "mean_probability_jsd": 0.0,
+            "mean_rank_movement": 0.0,
+            "mean_reference_margin": 0.00213623046875,
+            "mean_top_k_jaccard": 1.0,
+            "steps": 16,
+            "top1_disagreement_rate": 0.0,
+            "unsafe_decision_rate": 0.0
+          },
+          "w3": {
+            "mean_logit_mae": 0.013779563057218825,
+            "mean_probability_jsd": 5.41723919095739e-05,
+            "mean_rank_movement": 3.1875,
+            "mean_reference_margin": 0.00213623046875,
+            "mean_top_k_jaccard": 0.525,
+            "steps": 16,
+            "top1_disagreement_rate": 1.0,
+            "unsafe_decision_rate": 1.0
+          },
+          "w4": {
+            "mean_logit_mae": 0.004500715770358841,
+            "mean_probability_jsd": 3.816457278888826e-06,
+            "mean_rank_movement": 2.2750000000000004,
+            "mean_reference_margin": 0.00213623046875,
+            "mean_top_k_jaccard": 0.6,
+            "steps": 16,
+            "top1_disagreement_rate": 1.0,
+            "unsafe_decision_rate": 1.0
+          },
+          "w8": {
+            "mean_logit_mae": 0.00025610755310317946,
+            "mean_probability_jsd": 1.3139924686010145e-08,
+            "mean_rank_movement": 0.03125,
+            "mean_reference_margin": 0.00213623046875,
+            "mean_top_k_jaccard": 1.0,
+            "steps": 16,
+            "top1_disagreement_rate": 0.0,
+            "unsafe_decision_rate": 0.0
+          }
+        },
+        "devices": [
+          "cuda:0",
+          "cuda:0",
+          "cuda:0",
+          "cuda:0"
+        ],
+        "evidence": "full pinned-model evaluation",
+        "model": "sshleifer/tiny-gpt2",
+        "model_revision": "5f91d94bd9cd7190a9f3216ff93cd1dd95f2c7be",
+        "note": "Native fake-dequantized weights; not a packed-kernel systems measurement.",
+        "split": "calibration",
+        "steps_per_condition": 16,
+        "visible_devices": "4"
+      }
+    },
+    {
+      "manifest": "manifests/dev-validation-gpu4-v1.json",
+      "raw_output_location": "results/raw/dev-validation-gpu4-v1/",
+      "run_id": "dev-validation-gpu4-v1",
+      "summary": {
+        "conditions": {
+          "bf16": {
+            "mean_logit_mae": 0.0,
+            "mean_probability_jsd": 0.0,
+            "mean_rank_movement": 0.0,
+            "mean_reference_margin": 0.001617431640625,
+            "mean_top_k_jaccard": 1.0,
+            "steps": 16,
+            "top1_disagreement_rate": 0.0,
+            "unsafe_decision_rate": 0.0
+          },
+          "w3": {
+            "mean_logit_mae": 0.01046353917588417,
+            "mean_probability_jsd": 2.0530660567389286e-05,
+            "mean_rank_movement": 2.9895833333333335,
+            "mean_reference_margin": 0.001617431640625,
+            "mean_top_k_jaccard": 0.4666666666666667,
+            "steps": 16,
+            "top1_disagreement_rate": 1.0,
+            "unsafe_decision_rate": 1.0
+          },
+          "w4": {
+            "mean_logit_mae": 0.004460846448941412,
+            "mean_probability_jsd": 3.734499710774173e-06,
+            "mean_rank_movement": 1.9875,
+            "mean_reference_margin": 0.001617431640625,
+            "mean_top_k_jaccard": 0.6,
+            "steps": 16,
+            "top1_disagreement_rate": 0.5,
+            "unsafe_decision_rate": 1.0
+          },
+          "w8": {
+            "mean_logit_mae": 0.00024657266105785914,
+            "mean_probability_jsd": 1.208749098324705e-08,
+            "mean_rank_movement": 0.0,
+            "mean_reference_margin": 0.001617431640625,
+            "mean_top_k_jaccard": 1.0,
+            "steps": 16,
+            "top1_disagreement_rate": 0.0,
+            "unsafe_decision_rate": 0.0
+          }
+        },
+        "devices": [
+          "cuda:0",
+          "cuda:0",
+          "cuda:0",
+          "cuda:0"
+        ],
+        "evidence": "full pinned-model evaluation",
+        "model": "sshleifer/tiny-gpt2",
+        "model_revision": "5f91d94bd9cd7190a9f3216ff93cd1dd95f2c7be",
+        "note": "Native fake-dequantized weights; not a packed-kernel systems measurement.",
+        "split": "validation",
+        "steps_per_condition": 16,
+        "visible_devices": "4"
+      }
+    },
+    {
+      "manifest": "manifests/dev-final-gpu4-v1.json",
+      "raw_output_location": "results/raw/dev-final-gpu4-v1/",
+      "run_id": "dev-final-gpu4-v1",
+      "summary": {
+        "conditions": {
+          "bf16": {
+            "mean_logit_mae": 0.0,
+            "mean_probability_jsd": 0.0,
+            "mean_rank_movement": 0.0,
+            "mean_reference_margin": 0.0009765625,
+            "mean_top_k_jaccard": 1.0,
+            "steps": 16,
+            "top1_disagreement_rate": 0.0,
+            "unsafe_decision_rate": 0.0
+          },
+          "w3": {
+            "mean_logit_mae": 0.010452540985962535,
+            "mean_probability_jsd": 2.0497394779731506e-05,
+            "mean_rank_movement": 2.9791666666666665,
+            "mean_reference_margin": 0.0009765625,
+            "mean_top_k_jaccard": 0.3333333333333333,
+            "steps": 16,
+            "top1_disagreement_rate": 1.0,
+            "unsafe_decision_rate": 1.0
+          },
+          "w4": {
+            "mean_logit_mae": 0.004437188121934577,
+            "mean_probability_jsd": 3.7001317547983478e-06,
+            "mean_rank_movement": 1.75,
+            "mean_reference_margin": 0.0009765625,
+            "mean_top_k_jaccard": 0.6,
+            "steps": 16,
+            "top1_disagreement_rate": 0.0,
+            "unsafe_decision_rate": 1.0
+          },
+          "w8": {
+            "mean_logit_mae": 0.0002486626356783799,
+            "mean_probability_jsd": 1.2329517230303975e-08,
+            "mean_rank_movement": 0.0,
+            "mean_reference_margin": 0.0009765625,
+            "mean_top_k_jaccard": 1.0,
+            "steps": 16,
+            "top1_disagreement_rate": 0.0,
+            "unsafe_decision_rate": 0.0
+          }
+        },
+        "devices": [
+          "cuda:0",
+          "cuda:0",
+          "cuda:0",
+          "cuda:0"
+        ],
+        "evidence": "full pinned-model evaluation",
+        "model": "sshleifer/tiny-gpt2",
+        "model_revision": "5f91d94bd9cd7190a9f3216ff93cd1dd95f2c7be",
+        "note": "Native fake-dequantized weights; not a packed-kernel systems measurement.",
+        "split": "final",
+        "steps_per_condition": 16,
+        "visible_devices": "4"
+      }
+    },
+    {
+      "manifest": "manifests/primary-calibration-gpu4-7-v1.json",
+      "raw_output_location": "results/raw/primary-calibration-gpu4-7-v1/",
+      "run_id": "primary-calibration-gpu4-7-v1",
+      "summary": {
+        "conditions": {
+          "bf16": {
+            "mean_logit_mae": 0.0,
+            "mean_probability_jsd": 0.0,
+            "mean_rank_movement": 0.0,
+            "mean_reference_margin": 4.546875,
+            "mean_top_k_jaccard": 1.0,
+            "steps": 16,
+            "top1_disagreement_rate": 0.0,
+            "unsafe_decision_rate": 0.0
+          },
+          "w3": {
+            "mean_logit_mae": 2.962522185825503,
+            "mean_probability_jsd": 0.6931348909407526,
+            "mean_rank_movement": 4.5,
+            "mean_reference_margin": 4.546875,
+            "mean_top_k_jaccard": 0.0,
+            "steps": 16,
+            "top1_disagreement_rate": 1.0,
+            "unsafe_decision_rate": 1.0
+          },
+          "w4": {
+            "mean_logit_mae": 3.20991147095571,
+            "mean_probability_jsd": 0.6919002030049048,
+            "mean_rank_movement": 4.5,
+            "mean_reference_margin": 4.546875,
+            "mean_top_k_jaccard": 0.0,
+            "steps": 16,
+            "top1_disagreement_rate": 1.0,
+            "unsafe_decision_rate": 1.0
+          },
+          "w8": {
+            "mean_logit_mae": 0.5421461508758818,
+            "mean_probability_jsd": 0.015556154355788367,
+            "mean_rank_movement": 1.1443181818181818,
+            "mean_reference_margin": 4.546875,
+            "mean_top_k_jaccard": 0.702020202020202,
+            "steps": 16,
+            "top1_disagreement_rate": 0.125,
+            "unsafe_decision_rate": 0.4375
+          }
+        },
+        "devices": [
+          "cuda:0",
+          "cuda:1",
+          "cuda:2",
+          "cuda:3"
+        ],
+        "evidence": "full pinned-model evaluation",
+        "model": "Qwen/Qwen2.5-7B-Instruct",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "note": "Native fake-dequantized weights; not a packed-kernel systems measurement.",
+        "split": "calibration",
+        "steps_per_condition": 16,
+        "visible_devices": "4,5,6,7"
+      }
+    },
+    {
+      "manifest": "manifests/primary-validation-gpu4-7-v1.json",
+      "raw_output_location": "results/raw/primary-validation-gpu4-7-v1/",
+      "run_id": "primary-validation-gpu4-7-v1",
+      "summary": {
+        "conditions": {
+          "bf16": {
+            "mean_logit_mae": 0.0,
+            "mean_probability_jsd": 0.0,
+            "mean_rank_movement": 0.0,
+            "mean_reference_margin": 3.7421875,
+            "mean_top_k_jaccard": 1.0,
+            "steps": 16,
+            "top1_disagreement_rate": 0.0,
+            "unsafe_decision_rate": 0.0
+          },
+          "w3": {
+            "mean_logit_mae": 3.5883920545884056,
+            "mean_probability_jsd": 0.6931314400871388,
+            "mean_rank_movement": 4.5,
+            "mean_reference_margin": 3.7421875,
+            "mean_top_k_jaccard": 0.0,
+            "steps": 16,
+            "top1_disagreement_rate": 1.0,
+            "unsafe_decision_rate": 1.0
+          },
+          "w4": {
+            "mean_logit_mae": 3.640035454787253,
+            "mean_probability_jsd": 0.6916645169971852,
+            "mean_rank_movement": 4.5,
+            "mean_reference_margin": 3.7421875,
+            "mean_top_k_jaccard": 0.0,
+            "steps": 16,
+            "top1_disagreement_rate": 1.0,
+            "unsafe_decision_rate": 1.0
+          },
+          "w8": {
+            "mean_logit_mae": 0.650705177440828,
+            "mean_probability_jsd": 0.015938296757336715,
+            "mean_rank_movement": 1.3072916666666667,
+            "mean_reference_margin": 3.7421875,
+            "mean_top_k_jaccard": 0.7722222222222223,
+            "steps": 16,
+            "top1_disagreement_rate": 0.125,
+            "unsafe_decision_rate": 0.6875
+          }
+        },
+        "devices": [
+          "cuda:0",
+          "cuda:1",
+          "cuda:2",
+          "cuda:3"
+        ],
+        "evidence": "full pinned-model evaluation",
+        "model": "Qwen/Qwen2.5-7B-Instruct",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "note": "Native fake-dequantized weights; not a packed-kernel systems measurement.",
+        "split": "validation",
+        "steps_per_condition": 16,
+        "visible_devices": "4,5,6,7"
+      }
+    },
+    {
+      "manifest": "manifests/primary-final-gpu4-7-v1.json",
+      "raw_output_location": "results/raw/primary-final-gpu4-7-v1/",
+      "run_id": "primary-final-gpu4-7-v1",
+      "summary": {
+        "conditions": {
+          "bf16": {
+            "mean_logit_mae": 0.0,
+            "mean_probability_jsd": 0.0,
+            "mean_rank_movement": 0.0,
+            "mean_reference_margin": 1.0703125,
+            "mean_top_k_jaccard": 1.0,
+            "steps": 16,
+            "top1_disagreement_rate": 0.0,
+            "unsafe_decision_rate": 0.0
+          },
+          "w3": {
+            "mean_logit_mae": 3.881135535117424,
+            "mean_probability_jsd": 0.6930999338579911,
+            "mean_rank_movement": 4.5,
+            "mean_reference_margin": 1.0703125,
+            "mean_top_k_jaccard": 0.0,
+            "steps": 16,
+            "top1_disagreement_rate": 1.0,
+            "unsafe_decision_rate": 1.0
+          },
+          "w4": {
+            "mean_logit_mae": 4.064622183961877,
+            "mean_probability_jsd": 0.68528461999851,
+            "mean_rank_movement": 4.5,
+            "mean_reference_margin": 1.0703125,
+            "mean_top_k_jaccard": 0.0,
+            "steps": 16,
+            "top1_disagreement_rate": 1.0,
+            "unsafe_decision_rate": 1.0
+          },
+          "w8": {
+            "mean_logit_mae": 0.78873218054722,
+            "mean_probability_jsd": 0.04147206279416926,
+            "mean_rank_movement": 1.4417929292929292,
+            "mean_reference_margin": 1.0703125,
+            "mean_top_k_jaccard": 0.6366161616161616,
+            "steps": 16,
+            "top1_disagreement_rate": 0.4375,
+            "unsafe_decision_rate": 0.875
+          }
+        },
+        "devices": [
+          "cuda:0",
+          "cuda:1",
+          "cuda:2",
+          "cuda:3"
+        ],
+        "evidence": "full pinned-model evaluation",
+        "model": "Qwen/Qwen2.5-7B-Instruct",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "note": "Native fake-dequantized weights; not a packed-kernel systems measurement.",
+        "split": "final",
+        "steps_per_condition": 16,
+        "visible_devices": "4,5,6,7"
       }
     }
-  ]
+  ],
+  "schema_version": "bitplan.m1.result-index.v1"
 }
