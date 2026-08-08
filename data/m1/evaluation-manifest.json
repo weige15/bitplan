@@ -1,0 +1,28 @@
+{
+  "schema_version": "bitplan.m1.evaluation-manifest.v1",
+  "revision": "bitplan-m1-eval-v1",
+  "provenance": {
+    "source": "BitPlan repository fixed prompts",
+    "immutable_identifier": "bitplan-m1-eval-v1",
+    "license": "CC0-1.0 project-authored prompts",
+    "note": "This is a small prompt manifest, not a downloaded dataset or generated corpus."
+  },
+  "splits": {
+    "calibration": [
+      {"id": "cal-001", "text": "Explain why a deterministic prefix matters."},
+      {"id": "cal-002", "text": "List two checks for a reproducible experiment."}
+    ],
+    "validation": [
+      {"id": "val-001", "text": "What does a top one token decision measure?"},
+      {"id": "val-002", "text": "Describe an offline replay frontier."}
+    ],
+    "final": [
+      {"id": "final-001", "text": "Summarize a careful comparison of model precisions."},
+      {"id": "final-002", "text": "Why should raw traces stay outside version control?"}
+    ],
+    "smoke": [
+      {"id": "smoke-001", "text": "A fixed prefix makes paired analysis testable."},
+      {"id": "smoke-002", "text": "Replay only the suffix needed to repair a decision."}
+    ]
+  }
+}

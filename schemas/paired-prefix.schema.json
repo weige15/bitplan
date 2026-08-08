@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bitplan.local/schemas/paired-prefix.v1.json",
+  "type": "object",
+  "required": ["schema_version", "prefix_policy", "boundaries", "prompts", "summary", "observations"],
+  "properties": {
+    "schema_version": {"const": "bitplan.m1.paired-prefix.v1"},
+    "prefix_policy": {"const": "reference-greedy-prefix-only"},
+    "boundaries": {"type": "array", "items": {"type": "integer"}},
+    "prompts": {"type": "array"},
+    "summary": {"type": "object"},
+    "observations": {"type": "object"}
+  }
+}

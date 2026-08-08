@@ -1,0 +1,31 @@
+{
+  "schema_version": "bitplan.m1.result-index.v1",
+  "purpose": "Small committed index; raw results remain ignored.",
+  "runs": [
+    {
+      "run_id": "m1-smoke-fixture-v1",
+      "manifest": "manifests/m1-smoke-fixture-v1.json",
+      "raw_output_location": "results/raw/m1-smoke-fixture-v1/",
+      "summary": {
+        "evidence": "smoke-only dependency-free fixture",
+        "config": "configs/m1.json",
+        "steps_per_condition": 16,
+        "replay_checked": 48,
+        "replay_tolerance": 1e-12,
+        "unsafe_decision_rate": {
+          "bf16": 0.0,
+          "w8": 0.125,
+          "w4": 0.9375,
+          "w3": 1.0
+        },
+        "top1_disagreement_rate": {
+          "bf16": 0.0,
+          "w8": 0.0,
+          "w4": 0.0,
+          "w3": 0.0625
+        },
+        "note": "Not evidence about pinned-model quality, runtime speed, calibrated safety, or a paper result."
+      }
+    }
+  ]
+}

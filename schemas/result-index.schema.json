@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bitplan.local/schemas/result-index.v1.json",
+  "type": "object",
+  "required": ["schema_version", "runs"],
+  "properties": {
+    "schema_version": {"const": "bitplan.m1.result-index.v1"},
+    "runs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["run_id", "manifest", "raw_output_location", "summary"],
+        "properties": {
+          "run_id": {"type": "string"},
+          "manifest": {"type": "string"},
+          "raw_output_location": {"type": "string", "pattern": "^results/raw/"},
+          "summary": {"type": "object"}
+        }
+      }
+    }
+  }
+}

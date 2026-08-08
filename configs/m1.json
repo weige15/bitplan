@@ -1,0 +1,111 @@
+{
+  "schema_version": "bitplan.m1.config.v1",
+  "purpose": "Internal M1 paired-prefix instrumentation and offline selective-replay oracle; not a product quantizer or safety monitor.",
+  "models": {
+    "development": {
+      "name": "sshleifer/tiny-gpt2",
+      "revision": "5f91d94bd9cd7190a9f3216ff93cd1dd95f2c7be",
+      "tokenizer_revision": "5f91d94bd9cd7190a9f3216ff93cd1dd95f2c7be",
+      "license": "Apache-2.0",
+      "parameter_scale": "development",
+      "transformer_layers": 2,
+      "rationale": "Small, stable GPT-2-compatible development model for a network-backed CPU smoke of the optional Transformers adapter."
+    },
+    "primary": {
+      "name": "Qwen/Qwen2.5-7B-Instruct",
+      "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "tokenizer_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "license": "Apache-2.0",
+      "parameter_scale": "7B-8B",
+      "transformer_layers": 28,
+      "rationale": "Open Apache-2.0 7B instruction model with stable Transformers support; fixed here to avoid broad model scaling."
+    }
+  },
+  "quantization": {
+    "reference": "higher_precision_reference",
+    "conditions": [
+      {
+        "name": "bf16",
+        "bits": 16,
+        "backend": "torch_bfloat16_or_fixture_bfloat16_rounding",
+        "supported": true,
+        "support_scope": "Condition comparison only; no systems-speed claim."
+      },
+      {
+        "name": "w8",
+        "bits": 8,
+        "backend": "native_symmetric_fake_dequantized_weights",
+        "supported": true,
+        "support_scope": "Per-tensor symmetric fake quantization in the offline reference harness; weights remain dequantized for correctness instrumentation."
+      },
+      {
+        "name": "w4",
+        "bits": 4,
+        "backend": "native_symmetric_fake_dequantized_weights",
+        "supported": true,
+        "support_scope": "Per-tensor symmetric fake quantization in the offline reference harness; weights remain dequantized for correctness instrumentation."
+      },
+      {
+        "name": "w3",
+        "bits": 3,
+        "backend": "native_symmetric_fake_dequantized_weights",
+        "supported": true,
+        "support_scope": "Aggressive W3 fake quantization is technically supported by the dependency-free harness; no packed-kernel or hardware performance claim."
+      }
+    ]
+  },
+  "boundaries_by_model": {
+    "development": [0, 1, 2],
+    "primary": [0, 7, 14, 21, 28]
+  },
+  "decoding": {
+    "strategy": "greedy",
+    "seed": 0,
+    "max_new_tokens": 8,
+    "top_k": 8
+  },
+  "metrics": {
+    "implementation_version": "bitplan.m1.metrics.v1",
+    "edge_cases": {
+      "vocab_smaller_than_k": "use all vocabulary tokens",
+      "one_token_vocab": "reference_margin=0.0",
+      "top_k_ties": "sort by lower token id after descending logit",
+      "zero_probability": "epsilon=1e-12 in KL terms"
+    },
+    "stability_predicate": "top1_agrees AND top_k_jaccard >= min_topk_jaccard AND probability_jsd <= max_probability_jsd AND rank_movement <= max_rank_movement"
+  },
+  "oracle": {
+    "implementation_version": "bitplan.m1.oracle.v1",
+    "threshold_source_split": "validation",
+    "stability_thresholds": {
+      "max_probability_jsd": 0.02,
+      "min_topk_jaccard": 0.5,
+      "max_rank_movement": 1.0
+    },
+    "cost_model": "cost_units = replayed_suffix_layers + one_output_head_unit; relative_cost = cost_units / (transformer_layers + 1)",
+    "selection_rule": "minimum cost_units, then maximum boundary; expose every boundary in the frontier"
+  },
+  "data": {
+    "manifest_path": "data/m1/evaluation-manifest.json",
+    "provenance": {
+      "revision": "bitplan-m1-eval-v1",
+      "kind": "repository-fixed-prompt-manifest",
+      "raw_generated_corpora": false
+    },
+    "splits": {
+      "calibration": "calibration",
+      "validation": "validation",
+      "final": "final",
+      "smoke": "smoke"
+    }
+  },
+  "environment": {
+    "lockfile": "environment/m1-lock.json",
+    "optional_transformers_backend": true,
+    "offline_smoke_dependencies": []
+  },
+  "artifacts": {
+    "raw_output_root": "results/raw/",
+    "ignored_artifacts": ["checkpoints", "datasets", "caches", "raw generated corpora", "large traces"]
+  }
+}
