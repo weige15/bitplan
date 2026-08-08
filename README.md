@@ -48,22 +48,28 @@ raw-result path; it is not a claim about either pinned model.
 ### Optional pinned-model run
 
 The optional Transformers backend uses the exact versions in
-[`environment/m1-lock.json`](environment/m1-lock.json):
+[`environment/m1-lock.json`](environment/m1-lock.json). The follow-up run used
+an ignored `.venv`; its exact package freeze and GPU assignment are recorded in
+[`environment/m1-installed.json`](environment/m1-installed.json). Use explicit
+idle devices rather than launching an uncontrolled multi-GPU job:
 
 ```bash
-python3 -m bitplan.run --model development --split validation \
-  --output results/raw/dev-validation-v1
-python3 -m bitplan.run --model primary --split validation \
-  --output results/raw/primary-validation-v1
+CUDA_VISIBLE_DEVICES=4 PYTHONPATH=. .venv/bin/python -m bitplan.run \
+  --model development --split validation \
+  --output results/raw/dev-validation-v1 \
+  --devices cuda:0,cuda:0,cuda:0,cuda:0
+CUDA_VISIBLE_DEVICES=4,5,6,7 PYTHONPATH=. .venv/bin/python -m bitplan.run \
+  --model primary --split validation \
+  --output results/raw/primary-validation-v1 \
+  --devices cuda:0,cuda:1,cuda:2,cuda:3
 ```
 
-These commands require the locked optional environment and model access. They
-capture top-k/logit summaries plus boundary hidden states and write a run
-manifest with repository commit, immutable model/tokenizer/data revisions,
-environment lock hash, hardware, quantization, seed, command, metric version,
-and raw-output location. They intentionally do not benchmark serving speed or
-claim runtime safety. In this environment the optional backend is not assumed
-to be installed; the M1 report therefore labels full-model evidence pending.
+These commands capture top-k/logit summaries plus boundary hidden states and
+write a run manifest with repository commit, immutable model/tokenizer/data
+revisions, environment lock hash, hardware, device assignment, quantization,
+seed, command, metric version, and raw-output location. They intentionally do
+not benchmark serving speed or claim runtime safety. The completed full-run
+outcomes are recorded in `research/m1/decision-report.md` and `results/index.json`.
 
 ### Validation and research record
 
